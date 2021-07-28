@@ -52,7 +52,7 @@ class Generico0 extends RegistroRemessaAbstract
         if ($value == 1 || $value == 2) {
             $this->data['tipo_inscricao'] = $value;
         } else {
-            throw new Exception("O tipo de incrição deve ser 1  para CPF e 2 para CNPJ, o valor informado foi:" . $value);
+            echo "O tipo de incrição deve ser 1  para CPF e 2 para CNPJ, o valor informado foi:" . $value;
         }
     }
 
