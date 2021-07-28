@@ -124,6 +124,17 @@ class Especie
     }
     
 }
+function gerar_txt($file_name,$data){
+//criamos o arquivo 
+$arquivo = fopen($file_name,'w'); 
+//verificamos se foi criado 
+if ($arquivo == false)
+    echo('Não foi possível criar o arquivo.');
+//escrevemos no arquivo 
+fwrite($arquivo, $data); //Fechamos o arquivo após escrever nele fclose($arquivo); 
+return $file_name;
+}
+
 /**
  * Class RemessaAbstract
  * @package cnab

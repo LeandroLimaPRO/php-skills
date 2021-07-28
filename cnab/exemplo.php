@@ -1,6 +1,9 @@
 <?php
 require 'Remessa.php';
-use cnab\Remessa\Remessa as Rem; 
+use cnab\Remessa\Remessa as Rem;
+
+use function cnab\Remessa\gerar_txt;
+
 //gera arquivo de .rem
 $nome_empresa = "2TY";
 $tr = 210023501;
@@ -64,7 +67,8 @@ $lote->adicionarDetalhe(array(
 ));        
 
 //gera arquivo
-echo "\n Arquivo: ". $novo_arquivo->getArquivo();
-
+$data = $novo_arquivo->getArquivo();
+$dir_file = gerar_txt("test.txt", $data);
+echo "<a href= '$dir_file'> link do arquivo </a>";
 
 ?>
