@@ -69,9 +69,9 @@ $lote->adicionarDetalhe(array(
 
 //gera arquivo
 $data = $novo_arquivo->getArquivo();
-
-
-$dir_file = pad_txt("test.txt", $data);
+$file_name = "test.txt";
+unlink($file_name);
+$dir_file = pad_txt($file_name  , $data);
 echo "<h2>'$dir_file'</h2>";
 echo "<a href= '$dir_file'> link do arquivo </a>";
 

@@ -2059,13 +2059,13 @@ class Registro9 extends Generico9
         ],
 		'codigo_lote'=> [
 			'tamanho'=>4,
-			'default'=>'9999',
+			'default'=>'0000',
 			'tipo'=>'int',
 			'required'=>true
         ],
 		'tipo_registro'=> [
 			'tamanho'=>1,
-			'default'=>'9',
+			'default'=>'0',
 			'tipo'=>'int',
 			'required'=>true
         ],
@@ -2083,7 +2083,7 @@ class Registro9 extends Generico9
         ],
 		'qtd_registros'=> [
 			'tamanho'=>6,
-			'default'=>'0',
+			'default'=>'000000',
 			'tipo'=>'int',
 			'required'=>true
         ],
