@@ -2,6 +2,9 @@
 
 namespace cnab\Remessa;
 use Exception;
+
+use function cnab\Remessa\gerar_txt as RemessaGerar_txt;
+
 class Especie
 {
     private $res = array();
@@ -125,16 +128,45 @@ class Especie
     
 }
 function gerar_txt($file_name,$data){
-//criamos o arquivo 
-$arquivo = fopen($file_name,'w'); 
-//verificamos se foi criado 
-if ($arquivo == false)
-    echo('Não foi possível criar o arquivo.');
-//escrevemos no arquivo 
-fwrite($arquivo, $data); //Fechamos o arquivo após escrever nele fclose($arquivo); 
-return $file_name;
+    //criamos o arquivo 
+    $arquivo = fopen($file_name,'a+'); 
+    //verificamos se foi criado 
+    if ($arquivo == false)
+        echo 'Não foi possível criar o arquivo.';
+    //escrevemos no arquivo 
+    fwrite($arquivo, $data); //Fechamos o arquivo após escrever nele fclose($arquivo); 
+    fclose($arquivo);
 }
+function pad_txt($file_name, $data){
+    $total_caracter = strlen($data);
 
+    if ($total_caracter > 399){
+        echo "é maior. dividindo";
+        $num_prov_line = round($total_caracter/399);
+        echo "Total de linhas: '$num_prov_line'";
+        $new_string = "";
+        $inicial = 0;
+        $final = 398;
+        for ($l=1; $l <= intval($num_prov_line); $l++){
+            $l_string = substr($data,$inicial,$final);
+            $l_string = str_pad($l_string, 398, " ", STR_PAD_BOTH);
+            $new_string = strval($l) . " " . $l_string;
+            $tam = strlen($new_string);
+            echo "<br></br> *linha $l ($tam)* - '$new_string'";
+            gerar_txt($file_name,$new_string);
+            $inicial = $final*$l+1;
+        }
+        //echo "<h3>VALOR TOTAL: <br> </br>$new_string</h3>";
+        return $file_name;
+
+    }
+    else{
+        echo "é menor.";
+        $new_string = "";
+        $new_string += strval(1) + str_pad($data,400," ",STR_PAD_BOTH) + "\n\r";
+        gerar_txt($file_name,$data);
+    }
+}
 /**
  * Class RemessaAbstract
  * @package cnab
