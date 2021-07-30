@@ -1,4 +1,40 @@
 <?php
+require 'santander.php';
+
+function gerar_txt($file_name,$data){
+    //criamos o arquivo 
+    $arquivo = fopen($file_name,'a+'); 
+    //verificamos se foi criado 
+    if ($arquivo == false)
+        echo 'Não foi possível criar o arquivo.';
+
+    //escrevemos no arquivo 
+    fwrite($arquivo, $data); //Fechamos o arquivo após escrever nele fclose($arquivo); 
+    fclose($arquivo);
+    return $file_name;
+}
+
+$remessa = new remessaSantander(array(
+    'header' => array(
+        'cod_registro' => '1',
+        'cod_remessa' => '1',
+        'cod_servico' => '1',
+        'cod_transmissao' =>'1'
+        //...
+    ),
+    'boletos'=> array(
+        'cod_registro' => '1',
+        'tipo_inscricao_beneficiario' => '1',
+        'cpf_cnpj_beneficiario' => '12312312321',
+        'agencia_beneficiario' => '123'
+        //...
+    )
+    ));
+$rem = $remessa->render();
+
+$path_file = gerar_txt("test.txt", $rem);
+
+    /*
 require 'Remessa.php';
 use cnab\Remessa\Remessa as Rem;
 
@@ -24,7 +60,7 @@ $novo_arquivo = new Rem("033","Cnab240",array(
 //echo $novo_arquivo;
 // adiciona lote
 
-$lote  = $novo_arquivo->adicionarLote(array('tipo_servico'=> 2)); // tipo_servico  = 1 para cobrança registrada, 2 para sem registro
+$lote  = $novo_arquivo->adicionarLote(array('tipo_servico'=> 1)); // tipo_servico  = 1 para cobrança registrada, 2 para sem registro
 // adiciona detalhe
 
 $lote->adicionarDetalhe(array(
@@ -34,10 +70,10 @@ $lote->adicionarDetalhe(array(
     'nosso_numero'      => 0201, // numero sequencial de boleto
     'seu_numero'        => 1,// se nao informado usarei o nosso numero
     'conta'         => 12345, // número da conta 
-    /* campos necessarios somente para itau cnab400, não precisa comentar se for outro layout    */
+    //campos necessarios somente para itau cnab400, não precisa comentar se for outro layout 
     'carteira_banco'    => 109, // codigo da carteira ex: 109,RG esse vai o nome da carteira no banco
     'cod_carteira'      => "I", // I para a maioria ddas carteiras do itau
-    /* campos necessarios somente para itau, não precisa comentar se for outro layout   */
+     //campos necessarios somente para itau, não precisa comentar se for outro layout   
     'especie_titulo'    => "DM", // informar dm e sera convertido para codigo em qualquer laytou conferir em especie.php
     'valor'             => 100.00, // Valor do boleto como float valido em php
     'emissao_boleto'        => 2, // tipo de emissao do boleto informar 2 para emissao pelo beneficiario e 1 para emissao pelo banco
@@ -63,16 +99,17 @@ $lote->adicionarDetalhe(array(
     'conta_cobranca_dv' => 12,
     'agencia_cobradora' => 12, 
     'valor_multa'        => 30.00 // valor da multa
-    //'codigo_transmissao' => $tr,
+    #'codigo_transmissao' => $tr,
     //'tipo_inscricao_empresa' => 1
 ));        
 
 //gera arquivo
+
 $data = $novo_arquivo->getArquivo();
 $file_name = "test.txt";
 unlink($file_name);
 $dir_file = pad_txt($file_name  , $data);
 echo "<h2>'$dir_file'</h2>";
 echo "<a href= '$dir_file'> link do arquivo </a>";
-
+*/
 ?>
