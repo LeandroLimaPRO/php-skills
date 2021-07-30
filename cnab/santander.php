@@ -23,6 +23,7 @@
             return true;
         }
         function renderHeader($header) {
+            $this->linhas++;
             $cod_registro = str_pad($header["cod_registro"],1,"0",STR_PAD_LEFT);
             $cod_remessa = str_pad($header["cod_remessa"],1,"0",STR_PAD_LEFT);
             $l_transmissao = str_pad("REMESSA",7,"0",STR_PAD_LEFT);    
@@ -42,7 +43,7 @@
             $brancos1 = str_pad(" ",34,STR_PAD_RIGHT);
             $brancos2 = str_pad(" ",6,STR_PAD_RIGHT);
             $n_ver = str_pad($header["n_ver"], 3, STR_PAD_LEFT);
-            $n_sec = str_pad($header["n_sec"], 6, STR_PAD_RIGHT);
+            $n_sec = str_pad($this->linhas, 6, "0", STR_PAD_LEFT);
             return "{$cod_registro}{$cod_remessa}{$l_transmissao}{$cod_servico}{$l_servico}{$cod_transmissao}{$nome_beneficiario}{$cod_banco}{$nome_banco}{$data_grav}{$zeros}{$msg1}{$msg2}{$msg3}{$msg4}{$msg5}{$brancos1}{$brancos2}{$n_ver}{$n_sec}";
         }
         function renderBoleto($boleto) {
