@@ -1,11 +1,14 @@
 <?php
-    class remessaSantander {
+    class RemessaSantander {
         var $header = [];
         var $boletos = [];
         var $linhas = 0;
         var $totais = 0;
         function __construct($dadosEmpresa) {
-
+            $header = $dadosEmpresa['header'];
+            $boletos =$dadosEmpresa['boletos'];
+            $this->setHeader($header);
+            $this->setBoleto($boletos);
         }
         function setHeader($header =[]){
             $this->$header[] = $header;
@@ -113,8 +116,10 @@
         function render() {
             $file = $this->renderHeader($this->$header);
             foreach ($this->boletos as $boleto) {
+                $file .="\n";
                 $file .= $this->renderBoleto($boleto);
             }
+            $file .="\n";
             $file .= $this->renderTrailer();
 
             return $file;

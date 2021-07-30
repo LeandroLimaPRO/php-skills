@@ -14,7 +14,7 @@ function gerar_txt($file_name,$data){
     return $file_name;
 }
 
-$remessa = new remessaSantander(array(
+$remessa = new RemessaSantander(array(
     'header' => array(
         'cod_registro' => '1',
         'cod_remessa' => '1',
@@ -22,18 +22,18 @@ $remessa = new remessaSantander(array(
         'cod_transmissao' =>'1'
         //...
     ),
-    'boletos'=> array(
+    'boletos'=> array(array(
         'cod_registro' => '1',
         'tipo_inscricao_beneficiario' => '1',
         'cpf_cnpj_beneficiario' => '12312312321',
         'agencia_beneficiario' => '123'
         //...
-    )
+    ))
     ));
 $rem = $remessa->render();
-
-$path_file = gerar_txt("test.txt", $rem);
-
+echo "<h5> $rem </h5>";
+$path_file = gerar_txt("test.rem", $rem);
+echo "<a href = $path_file>$path_file</a>";
     /*
 require 'Remessa.php';
 use cnab\Remessa\Remessa as Rem;
