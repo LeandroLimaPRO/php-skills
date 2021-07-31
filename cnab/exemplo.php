@@ -35,7 +35,7 @@ $header =[
     'cod_transmissao' =>'1', // codigo cedido pelo banco
     'nome_beneficiario' => '2TY', // nome do beneficiario
     'data_grav' => '10/05/21', // data de gravação
-    'msg1' => 'este e um exemplo de mensagem para todos' // uma mensagem fornecida (opcional) vai de msg 1- 5
+    #'msg1' => 'este e um exemplo de mensagem para todos' // uma mensagem fornecida (opcional) vai de msg 1- 5
 ];
 /*
 foreach ($boletosArr as $boleto) {

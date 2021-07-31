@@ -123,9 +123,9 @@
             $msg5 = str_pad($this->tirarAcentos(substr($this->verString($header["msg5"]),0,47)), 
                 47," ",STR_PAD_RIGHT);
             $brancos1 = str_pad(" ",
-                34,STR_PAD_RIGHT);
+                34," ",STR_PAD_RIGHT);
             $brancos2 = str_pad(" ",
-                6,STR_PAD_RIGHT);
+                6," ",STR_PAD_RIGHT);
             $n_ver = str_pad($this->getNum($this->verInt($header["n_ver"])), 
                 4, "0", STR_PAD_RIGHT);
             $n_sec = str_pad($this->linhas, 
