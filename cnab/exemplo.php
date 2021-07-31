@@ -1,23 +1,11 @@
 <?php
 require 'santander.php';
 
-function gerar_txt($file_name,$data){
-    //criamos o arquivo 
-    $arquivo = fopen($file_name,'a+'); 
-    //verificamos se foi criado 
-    if ($arquivo == false)
-        echo 'Não foi possível criar o arquivo.';
-
-    //escrevemos no arquivo 
-    fwrite($arquivo, $data); //Fechamos o arquivo após escrever nele fclose($arquivo); 
-    fclose($arquivo);
-    return $file_name;
-}
 $header =[
     'cod_transmissao' =>'1', // codigo cedido pelo banco
     'nome_beneficiario' => '2TY', // nome do beneficiario
     'data_grav' => '10/05/21', // data de gravação
-    'msg1' => 'este é um exemplo de mensagem' // uma mensagem fornecida (opcional) vai de msg 1- 5
+    'msg1' => 'este e um exemplo de mensagem' // uma mensagem fornecida (opcional) vai de msg 1- 5
 ];
 $boleto1 =[
     'cpf_cnpj_beneficiario' => '123.123.213-31',
