@@ -58,8 +58,25 @@
                 return "0";
             }
         }
+        # TIRA TODOS OS CARACTERES ESPECIAIS NA STRING
         function tirarAcentos($string){
-            return preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"),$string);
+            return preg_replace(array(
+                "/(á|à|ã|â|ä)/",
+                "/(Á|À|Ã|Â|Ä)/",
+                "/(é|è|ê|ë)/",
+                "/(É|È|Ê|Ë)/",
+                "/(í|ì|î|ï)/",
+                "/(Í|Ì|Î|Ï)/",
+                "/(ó|ò|õ|ô|ö)/",
+                "/(Ó|Ò|Õ|Ô|Ö)/",
+                "/(ú|ù|û|ü)/",
+                "/(Ú|Ù|Û|Ü)/",
+                "/(ñ)/",
+                "/(Ñ)/"),
+            explode(
+                " ",
+                "a A e E i I o O u U n N"),
+                $string);
         }
         //atribui TIPO de doc CPF - 01 E CNPJ 02
         function getTipoDoc($num_doc){
@@ -80,74 +97,39 @@
             $this->linhas++;
             $cod_registro = "0";
             $cod_remessa = "1";
-            $l_transmissao = str_pad(
-                                "REMESSA",
-                                7,
-                                " ",
-                                STR_PAD_LEFT);    
+            $l_transmissao = str_pad("REMESSA",
+                7," ",STR_PAD_LEFT);    
             $cod_servico = "01";
-            $l_servico = str_pad(
-                                "COBRANÇA",
-                                15,
-                                " ",
-                                STR_PAD_LEFT);
-            $cod_transmissao = str_pad(
-                                $header["cod_transmissao"],
-                                20,
-                                "0",
-                                STR_PAD_LEFT);
-            $nome_beneficiario = str_pad(
-                $this->tirarAcentos(substr($header["nome_beneficiario"],
-                0,
-                30)),
-                30,
-                " ",
-                STR_PAD_LEFT);
+            $l_servico = str_pad("COBRANÇA",
+                15," ",STR_PAD_LEFT);
+            $cod_transmissao = str_pad($header["cod_transmissao"],
+                20,"0",STR_PAD_LEFT);
+            $nome_beneficiario = str_pad($this->tirarAcentos(substr($header["nome_beneficiario"],0,30)),
+                30," ",STR_PAD_LEFT);
             $cod_banco = "033";
-            $nome_banco = str_pad(
-                "SANTANDER", 
-                15, 
-                " ", 
-                STR_PAD_RIGHT);
-            $data_grav = str_pad(
-                $this->getNum(
-                    $header["data_grav"]), 
-                6,
-                "0",
-                STR_PAD_RIGHT);
-            $zeros = str_pad(
-                "0",
-                16,
-                "0",
-                STR_PAD_LEFT);
-            $msg1 = str_pad(
-                $this->tirarAcentos(substr(
-                    $this->verString(
-                        $header["msg1"]),
-                    0,
-                    47)), 
-                47,
-                " ",
-                STR_PAD_LEFT);
+            $nome_banco = str_pad("SANTANDER", 
+                15, " ", STR_PAD_RIGHT);
+            $data_grav = str_pad( $this->getNum($header["data_grav"]), 
+                6,"0",STR_PAD_RIGHT);
+            $zeros = str_pad("0",16,"0",STR_PAD_LEFT);
+            $msg1 = str_pad($this->tirarAcentos(substr($this->verString($header["msg1"]),0,47)), 
+                47," ",STR_PAD_LEFT);
             $msg2 = str_pad($this->tirarAcentos(substr($this->verString($header["msg2"]),0,47)), 
                 47," ",STR_PAD_LEFT);
             $msg3 = str_pad($this->tirarAcentos(substr($this->verString($header["msg3"]),0,47)), 
                 47," ",STR_PAD_LEFT);
             $msg4 = str_pad($this->tirarAcentos(substr($this->verString($header["msg4"]),0,47)), 
-                            47,
-                            " ",
-                            STR_PAD_LEFT);
-            $msg5 = str_pad($this->tirarAcentos(substr($this->verString(
-                                $header["msg5"]),
-                                0,
-                                47)), 
-                            47,
-                            " ",
-                            STR_PAD_LEFT);
-            $brancos1 = str_pad(" ",34,STR_PAD_RIGHT);
-            $brancos2 = str_pad(" ",6,STR_PAD_RIGHT);
-            $n_ver = str_pad($this->getNum($this->verInt($header["n_ver"])), 4, STR_PAD_RIGHT);
-            $n_sec = str_pad($this->linhas, 6, "0", STR_PAD_LEFT);
+                47," ",STR_PAD_LEFT);
+            $msg5 = str_pad($this->tirarAcentos(substr($this->verString($header["msg5"]),0,47)), 
+                47," ",STR_PAD_LEFT);
+            $brancos1 = str_pad(" ",
+                34,STR_PAD_RIGHT);
+            $brancos2 = str_pad(" ",
+                6,STR_PAD_RIGHT);
+            $n_ver = str_pad($this->getNum($this->verInt($header["n_ver"])), 
+                4, STR_PAD_RIGHT);
+            $n_sec = str_pad($this->linhas, 
+                6, "0", STR_PAD_LEFT);
             return "{$cod_registro}{$cod_remessa}{$l_transmissao}{$cod_servico}{$l_servico}{$cod_transmissao}{$nome_beneficiario}{$cod_banco}{$nome_banco}{$data_grav}{$zeros}{$msg1}{$msg2}{$msg3}{$msg4}{$msg5}{$brancos1}{$brancos2}{$n_ver}{$n_sec}";
         }
         function renderBoleto($boleto) {
@@ -158,7 +140,7 @@
             $num_documento = $this->getNum($boleto["cpf_cnpj_beneficiario"]);
             // atribui tipo de inscrição do beneficiario
             $t_ins_benef = str_pad($this->getTipoDoc($num_documento),
-            2,"0",STR_PAD_LEFT);
+                2,"0",STR_PAD_LEFT);
             
             $cpf_cnpj_benef = str_pad($num_documento,
                 14,"0",STR_PAD_RIGHT);
@@ -167,30 +149,24 @@
             $agencia_benef = str_pad($this->getNum($boleto["agencia_beneficiario"]),
                 4,"0",STR_PAD_LEFT);
             
-            $conta_mov_benef = str_pad(
-                $this->getNum($boleto["conta_movimento_beneficiario"]),
+            $conta_mov_benef = str_pad($this->getNum($boleto["conta_movimento_beneficiario"]),
                 8,"0",STR_PAD_LEFT);
             
-            $conta_cobr_benef = str_pad(
-                $this->getNum($boleto["conta_cobranca_beneficiario"]),
+            $conta_cobr_benef = str_pad($this->getNum($boleto["conta_cobranca_beneficiario"]),
                 8,"0",STR_PAD_LEFT);
             
-            $num_control = str_pad(
-                $this->getNum($boleto["num_controle_participante"]),
+            $num_control = str_pad($this->getNum($boleto["num_controle_participante"]),
                 25,"0",STR_PAD_LEFT);
             
-            $nosso_numero = str_pad(
-                $this->getNum($boleto["nosso_numero"]),
+            $nosso_numero = str_pad($this->getNum($boleto["nosso_numero"]),
                 8,"0",STR_PAD_RIGHT);
             
-            $data_seg_desconto = str_pad(
-                $this->getNum($boleto["data_segundo_desconto"]),
+            $data_seg_desconto = str_pad($this->getNum($boleto["data_segundo_desconto"]),
                 6,"0",STR_PAD_LEFT);
             
             $branco = str_pad(" ",1," ",STR_PAD_LEFT);
             
-            $info_multa = str_pad(
-                $this->getNum($boleto["informacao_multa"]),
+            $info_multa = str_pad($this->getNum($boleto["informacao_multa"]),
                 1,"0",STR_PAD_LEFT);
             
             $multa = str_pad($this->getNum($boleto["multa"]),
@@ -276,67 +252,42 @@
             
             $municipio_pagador = str_pad($this->tirarAcentos(substr($boleto["municipio_pagador"],0,15)),
                 15," ",STR_PAD_LEFT);
-            $uf_pagador = str_pad(
-                                substr(
-                                    $boleto["uf_pagador"],
-                                    0,
-                                    2),
-                                2,
-                                " ",
-                                STR_PAD_LEFT);
-            $brancos2 = str_pad(
-                                " ",
-                                30,
-                                " ",
-                                STR_PAD_LEFT);
-            $brancos3 = str_pad(
-                                " ",
-                                1,
-                                " ",
-                                STR_PAD_LEFT);
-            $indent_complemento = str_pad(
-                                $boleto["identificador_complemento"],
-                                1,
-                                "0",
-                                STR_PAD_RIGHT);
-            $complemento = str_pad(
-                                $boleto["complemento"],
-                                2,
-                                "0",
-                                STR_PAD_RIGHT);
-            $brancos4 = str_pad(
-                                " ",
-                                6,
-                                " ",
-                                STR_PAD_LEFT);
+            $uf_pagador = str_pad(substr($boleto["uf_pagador"],0,2),
+                2," ",STR_PAD_LEFT);
+            $brancos2 = str_pad(" ",
+                30," ",STR_PAD_LEFT);
+            $brancos3 = str_pad(" ",
+                1," ",STR_PAD_LEFT);
+            $indent_complemento = str_pad($boleto["identificador_complemento"],
+                1,"0",STR_PAD_RIGHT);
+            $complemento = str_pad($boleto["complemento"],
+                2,"0",STR_PAD_RIGHT);
+            $brancos4 = str_pad(" ",
+                6," ",STR_PAD_LEFT);
 
-            $n_d_p = str_pad(
-                                $this->getNum($boleto["numero_dias_protesto"]),
-                                2,
-                                "0",
-                                STR_PAD_RIGHT);
+            $n_d_p = str_pad($this->getNum($boleto["numero_dias_protesto"]),
+                2,"0", STR_PAD_RIGHT);
 
-            $brancos5 = str_pad(
-                                " ",
-                                1,
-                                " ",
-                                STR_PAD_LEFT); 
+            $brancos5 = str_pad(" ",
+                1," ",STR_PAD_LEFT); 
 
-            $sequencial = str_pad(
-                                    $this->linhas, 
-                                    6, 
-                                    "0", 
-                                    STR_PAD_LEFT);
+            $sequencial = str_pad($this->linhas, 
+                6,"0",STR_PAD_LEFT);
+
             return "{$cod_registro}{$t_ins_benef}{$cpf_cnpj_benef}{$agencia_benef}{$conta_mov_benef}{$conta_cobr_benef}{$num_control}{$nosso_numero}{$data_seg_desconto}{$branco}{$info_multa}{$multa}{$u_v_m_c}{$v_t_o_u}{$brancos}{$d_c_m}{$cod_carteira}{$cod_ocorrencia}{$seu_numero}{$d_v_t}{$valor_titulo}{$n_b_c}{$c_a_c}{$especie_documento}{$tipo_aceite}{$d_e_t}{$p_i_c}{$s_i_c}{$v_m_c_d_a}{$d_l_c_d}{$v_d_c}{$v_iof}{$v_a_c}{$t_pagador}{$cpf_cnpj_pagador}{$nome_pagador}{$endereco_pagador}{$bairro_pagador}{$cep_pagador}{$complemento_pagador}{$municipio_pagador}{$uf_pagador}{$brancos2}{$brancos3}{$indent_complemento}{$complemento}{$brancos4}{$n_d_p}{$brancos5}{$sequencial}";
         }
         function renderTrailer() {
             $this->linhas++;
             
             $registro = '9';
-            $documentos = str_pad(count($this->boletos), 6, "0", STR_PAD_RIGHT);
-            $total = str_pad($this->getNum($this->totais, 2), 13, "0", STR_PAD_BOTH);
-            $zeros1 = str_pad(0, 374, "0", STR_PAD_LEFT);
-            $sequencial = str_pad($this->linhas, 6, "0", STR_PAD_LEFT);
+            $documentos = str_pad(count($this->boletos), 
+                6, "0", STR_PAD_RIGHT);
+            $total = str_pad($this->getNum($this->totais, 2), 
+                13, "0", STR_PAD_BOTH);
+            $zeros1 = str_pad(0, 
+                374, "0", STR_PAD_LEFT);
+            $sequencial = str_pad($this->linhas, 
+                6, "0", STR_PAD_LEFT);
 
             return "{$registro}{$documentos}{$total}{$zeros1}{$sequencial}";
             
