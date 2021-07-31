@@ -19,7 +19,7 @@ Está classe é responsavel por gerar arquivo no padrão bancário
 
 ### Informações
 
-#### Padrão dos dados para remessa
+#### Exemplo dos dados para remessa
 
 ```php
 # header
