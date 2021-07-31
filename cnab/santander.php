@@ -100,18 +100,20 @@
             $l_transmissao = str_pad("REMESSA",
                 7," ",STR_PAD_RIGHT);    
             $cod_servico = "01";
-            $l_servico = str_pad("COBRANÇA",
+            $l_servico = str_pad("COBRANCA",
                 15," ",STR_PAD_RIGHT);
             $cod_transmissao = str_pad($header["cod_transmissao"],
                 20,"0",STR_PAD_LEFT);
             $nome_beneficiario = str_pad($this->tirarAcentos(substr($header["nome_beneficiario"],0,30)),
                 30," ",STR_PAD_RIGHT);
-            $cod_banco = str_pad($this->getNum($header['cod_banco']),3,"0", STR_PAD_RIGHT);
+            $cod_banco = str_pad($this->getNum($header['cod_banco']),
+                3,"0", STR_PAD_RIGHT);
             $nome_banco = str_pad("SANTANDER", 
                 15, " ", STR_PAD_RIGHT);
             $data_grav = str_pad( $this->getNum($header["data_grav"]), 
                 6,"0",STR_PAD_RIGHT);
-            $zeros = str_pad("0",16,"0",STR_PAD_RIGHT);
+            $zeros = str_pad("0",
+                16,"0",STR_PAD_RIGHT);
             $msg1 = str_pad($this->tirarAcentos(substr($this->verString($header["msg1"]),0,47)), 
                 47," ",STR_PAD_RIGHT);
             $msg2 = str_pad($this->tirarAcentos(substr($this->verString($header["msg2"]),0,47)), 
@@ -127,7 +129,7 @@
             $brancos2 = str_pad(" ",
                 6," ",STR_PAD_RIGHT);
             $n_ver = str_pad($this->getNum($this->verInt($header["n_ver"])), 
-                4, "0", STR_PAD_RIGHT);
+                3, "0", STR_PAD_RIGHT);
             $n_sec = str_pad($this->linhas, 
                 6, "0", STR_PAD_LEFT);
             return "{$cod_registro}{$cod_remessa}{$l_transmissao}{$cod_servico}{$l_servico}{$cod_transmissao}{$nome_beneficiario}{$cod_banco}{$nome_banco}{$data_grav}{$zeros}{$msg1}{$msg2}{$msg3}{$msg4}{$msg5}{$brancos1}{$brancos2}{$n_ver}{$n_sec}";
