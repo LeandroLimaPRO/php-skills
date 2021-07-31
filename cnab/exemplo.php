@@ -1,4 +1,34 @@
 <?php
+
+
+
+
+//$boletosArr = $Financeiro->boletos_listar([]);
+
+$linhaboleto = [
+    'Financeiro_Cobrancas_Tipos_idCobrancaTipo' => 1,
+    'Financeiro_Boletos_nrBanco' => 353,
+    'Financeiro_Boletos_nrAgencia' => 123,
+    'Financeiro_Boletos_nrConta' => 3214568,
+    'Financeiro_Boletos_nrDigitoConta'=> 5,
+    'Financeiro_Boletos_nrCarteira'=>4,
+    'Financeiro_Boletos_nmPessoaFilial' => 'CARDOSO TECNOLOGIA EIRELI',
+    'Financeiro_Boletos_nrCnpjCliente' => '195.691.555/001-51',
+    'Financeiro_Boletos_dsEnderecoCompletoFilial' => "RUA DOS BOLETOS, TRAVESSA ALGUMA COISA, QUADRA ALGUMA COISA",
+    'Financeiro_Boletos_nmPessoaCliente' => 'ZÉ PAGADOR DE BOLETO',
+    'Financeiro_Boletos_nrCnpjCliente' => '555.555.555/001-52',
+    'Financeiro_Boletos_dsEnderecoCompletoCliente' => 'RUA DO CLIENTE QUE PAGA',
+    'Financeiro_Boletos_nmCidadeCliente' => 'SEM NOME CITY',
+    'Financeiro_Boletos_dsUFCliente' => 'FU',
+    'Financeiro_Boletos_cdCEPCliente' => '65000-000',
+    'Financeiro_Boletos_dtVencimento' => '112122', #DD/MM/YY OU DDMMYY
+    'Financeiro_Boletos_nrNossoNumero' => 5555555566,
+    'Financeiro_Boletos_nrDocumento' => '9998885550004445555',
+    'Financeiro_Boletos_valor' => '50,10',
+    'Financeiro_Boletos_vrTaxaMulta' => '10,50'
+];
+
+$boletosArr[] = $linhaboleto;
 require 'santander.php';
 
 $header =[
@@ -7,24 +37,62 @@ $header =[
     'data_grav' => '10/05/21', // data de gravação
     'msg1' => 'este e um exemplo de mensagem para todos' // uma mensagem fornecida (opcional) vai de msg 1- 5
 ];
-$boleto1 =[
-    'cpf_cnpj_beneficiario' => '123.123.213-31',
-    'agencia_beneficiario' => '0001',
-    'conta_movimento_beneficiario' => '1032154-5',
-    'conta_cobranca_beneficiario' => '1032154-54',
+/*
+foreach ($boletosArr as $boleto) {
+    $boletos[] =[
+        'cpf_cnpj_beneficiario' => $boleto['Financeiro_Boletos_nrCnpjFilial'],
+        'numero_banco_cobrador' => $boleto['Financeiro_Boletos_nrBanco'],
+        'agencia_beneficiario' => $boleto['Financeiro_Boletos_nrAgencia'],
+        'conta_movimento_beneficiario' => $boleto['Financeiro_Boletos_nrConta'].$boleto['Financeiro_Boletos_nrDigitoConta'], #duvida nesse
+        'conta_cobranca_beneficiario' => $boleto['Financeiro_Boletos_nrConta'].$boleto['Financeiro_Boletos_nrDigitoConta'], #duvida nessa
+        'cod_carteira' => $boleto['Financeiro_Boletos_nrCarteira'],
+        'num_controle_participante' => '12',
+        'nosso_numero' => $boleto['Financeiro_Boletos_nrNossoNumero'],
+        #'data_segundo_desconto' => '000000',
+        'informacao_multa' => '0',
+        'multa' => '10,00', #valor %
+        'valor' => '200,00',# valor real
+        'data_vencimento_titulo' => $boleto['Financeiro_Boletos_dtVencimento'],
+        'cpf_cnpj_pagador' => $boleto['Financeiro_Boletos_nrCnpjCliente'],
+        'nome_pagador' => $boleto['Financeiro_Boletos_nmPessoaCliente'],
+        'cpf_cnpj_pagador' => $boleto['Financeiro_Boletos_nrCnpjCliente'],
+        'endereco_pagador' => $boleto ['Financeiro_Boletos_dsEnderecoCompletoCliente'],
+        'bairro_pagador' => "", #faltou
+        'cep_pagador' => $boleto['Financeiro_Boletos_cdCEPCliente'],
+        'municipio_pagador' =>  $boleto['Financeiro_Boletos_nmCidadeCliente'],
+        'uf_pagador' => $boleto['Financeiro_Boletos_dsUFCliente']
+    ];
+
+}*/
+
+$boleto =[
+    'cpf_cnpj_beneficiario' => $linhaboleto['Financeiro_Boletos_nrCnpjFilial'],
+    'numero_banco_cobrador' => $linhaboleto['Financeiro_Boletos_nrBanco'],
+    'agencia_beneficiario' => $linhaboleto['Financeiro_Boletos_nrAgencia'],
+    'conta_movimento_beneficiario' => $linhaboleto['Financeiro_Boletos_nrConta'].$boleto['Financeiro_Boletos_nrDigitoConta'], #duvida nesse
+    'conta_cobranca_beneficiario' => $linhaboleto['Financeiro_Boletos_nrConta'].$boleto['Financeiro_Boletos_nrDigitoConta'], #duvida nessa
+    'cod_carteira' => $linhaboleto['Financeiro_Boletos_nrCarteira'],
     'num_controle_participante' => '12',
-    'nosso_numero' => '1',
-    'data_segundo_desconto' => '12/12/21',
+    'nosso_numero' => $linhaboleto['Financeiro_Boletos_nrNossoNumero'],
+    #'data_segundo_desconto' => '000000',
     'informacao_multa' => '0',
-    'multa' => '10,00',
-    'cpf_cnpj_pagador' => '321.321.321/0001-8',
-    'valor' => '200,00'
+    'multa' => '10,00', #valor %
+    'valor' => '200,00',# valor real
+    'data_vencimento_titulo' => $linhaboleto['Financeiro_Boletos_dtVencimento'],
+    'cpf_cnpj_pagador' => $linhaboleto['Financeiro_Boletos_nrCnpjCliente'],
+    'nome_pagador' => $linhaboleto['Financeiro_Boletos_nmPessoaCliente'],
+    'cpf_cnpj_pagador' => $linhaboleto['Financeiro_Boletos_nrCnpjCliente'],
+    'endereco_pagador' => $linhaboleto ['Financeiro_Boletos_dsEnderecoCompletoCliente'],
+    'bairro_pagador' => "", #faltou
+    'cep_pagador' => $linhaboleto['Financeiro_Boletos_cdCEPCliente'],
+    'municipio_pagador' =>  $linhaboleto['Financeiro_Boletos_nmCidadeCliente'],
+    'uf_pagador' => $linhaboleto['Financeiro_Boletos_dsUFCliente']
 ];
 //echo $header['cod_transmissao'];
-
+var_dump($boleto);
 $remessa = new RemessaSantander(array(
     'header' => $header,
-    'boletos'=> [$boleto1]));
+    'boletos'=> [$boleto]));
 $rem = $remessa->render();
 echo "<h5> $rem </h5>";
 $path_file = gerar_txt('test.rem', $rem);

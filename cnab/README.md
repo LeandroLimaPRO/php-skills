@@ -11,10 +11,15 @@ Está classe é responsavel por gerar arquivo no padrão bancário
 
 #### Funcionando:
 - [x] Santander
+
     - [x] Remessa 
+
         -[x] Header
+
         -[x] X boletos
+
         -[x] Triller
+        
     - [x] Gera arquivo `.rem` cnab - 400
 
 ### Informações
