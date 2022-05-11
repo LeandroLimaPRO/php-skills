@@ -1,6 +1,20 @@
-# FORMULÁRIOS 2TY
+# DOCUMENTAÇÃO PHP
 
 ## Súmario
+
+- [Classe Codigo de Barras](#classe-codigo-de-barras)
+
+  - [Ean13](#ean13)
+
+    - [getInfo()](#getinfo)
+
+    - [getNumero()](#getnumero)
+
+    - [getEan()](#getean)
+
+    - [getValido()](#getvalido)
+
+    - [getImagem()](#getimagem)
 
 - [Estrutura Formulários](#estrutura)
 
@@ -24,6 +38,128 @@
 
   - [CSS/STYLES](#customização-css-ou-styles)
 
+# Classe Codigo de Barras
+
+Intancie o a classe importando e criando objeto
+
+ ```php
+    
+
+    $ean = new ean_classe();
+ ```
+
+## Ean13
+
+Pode informar um array com até 2 parametros:
+
+```"ean"``` informando este, você terar NUMEROS, ENDEREÇOIMAGEM, É VALIDO,
+
+ ```php
+    
+
+    $ean = new ean_classe([
+
+        "ean" => $codigodeBarras,
+    ]);
+ ```
+
+ou ```"numeros"``` informando este, você terar EAN, ENDEREÇOIMAGEM, É VALIDO,
+
+ ```php
+    
+
+    $ean = new ean_classe([
+        "numero" => $numero,
+    ]);
+
+ ```
+
+### ->getInfo()
+
+Função retorna um array de dados. Sendo eles: **
+
+#### USO
+
+```php
+ 
+ $dados = $ean->getInfo();
+ print_r($dados);
+ ```
+
+##### resposta
+
+```html
+    <pre>
+    Array(
+            [Ean] => 1000000000245
+            [Numeros] => 24
+            [Tamanho] => 13
+            [Tipo] => ean13
+            [Validado] => Sim
+            [EnderecoImagem] => http://.../imagens/barcode.php?id=1000000000245&type=ean13
+    )
+    </pre>
+```
+
+### ->getNumero()
+
+Função retorna a numeração correspondente (convertido).
+
+#### Uso
+
+```php
+$dado = $ean->getNumero();
+```
+
+### ->getEan()
+
+Da mesma forma da função anterior só que retorna o codigo de barras. Preferencialmente quando informo uma numeração qualquer com:
+
+```php
+
+$var = new ean_classe(["numero" => 123135]);
+
+```
+
+#### Uso
+
+```php
+
+$codigo = $var->getEan();
+
+```
+
+### ->getValido()
+
+Retorna uma resposta do tipo "String" de "Sim" ou "Não". A resposta corresponde a validação do Ean se é verdadeiro ou falso. Otimo para se trabalhar condicionais
+
+#### Uso
+
+```php
+
+$var = new ean_classe(["numero" => 123135]);
+
+if($var->valido == "Sim"){
+    echo "Codigo gerado com sucesso"
+}
+
+```
+
+### ->getImagem()
+
+Retorna o link da imagem do codigo de barras. O retorno é do tipo String.
+
+#### Uso
+
+```php
+$img = $var->getImagem(); //http://.../imagens/barcode.php?id=1000000000245&type=ean13
+
+
+echo "<img src='{$img}'/>"
+
+```
+
+# FORMULÁRIOS 2TY
 
 ## Estrutura
 
@@ -46,7 +182,7 @@ $dadoFields = $Tabela->carregar(['idTabela' => $_GET['id']]);
 
 }
 require 'arquivo.form.php';
-$idForm = $generate->gridform($params);
+    $idForm = $generate->gridform($params);
 ```
 
 #### Exemplo SEM carregamento Prévio
@@ -103,21 +239,37 @@ $generate->gridform_ocultarCampo('[NOME DO CAMPO]');
 
 # Tabelas 2TY
 
-Os modelos de tabela são regindos pela classe ```$tables```. os dados/css são obtidos apartir de arrays
+Os modelos de tabela são regindos pela classe ```$tabelaDados```. os dados/css são obtidos apartir de arrays.
+A tabela se adequa de acordo com o padrão do arrays.
+se for:
 
-## Tabela Horizontal
+```php 
+$array = [key => dado] 
+```
 
-É compostas por N colunas e N linhas, definidos apartir do array de objetos.
+torna-se uma tabela vertical
 
-Exemplo de tabela (Renderizado):
+------|------
+------|-------
+key1| dado_1
+key2| dado_2 
 
-col_1 | col_2 | col_N
+se for: 
+
+```php 
+$array[row] = [key => dado] 
+```
+
+key1 | key2 | key3
 ------|-------|-----
 dado_1| dado_2| dados_N     [row_1]
 dado_11| dado_12| dado_1N     [row_N]
 
+
+
 Exemplo do **array de entrada de dados**:
 
+### Como renderizar tabela:
 ```php
     $dados = [
         "row_1" => [
@@ -133,70 +285,27 @@ Exemplo do **array de entrada de dados**:
         ],
 
     ];
+    $dados[] = [
+        "Codigo do funcionario" =>"{$funcionario['idFuncionario']}",
+        "data de nascimento" =>"{$funcionario['dtNascido']}",
+        "endereco" =>"{$funcionario['dsEndereco']}",
+
+    ]
 ```
 
-Como renderizar tabela:
 
 ``` php
 //entradas: 
     # dados : array
     # classes e styles : array
-$tables->tabelaHorizontal($dados,$styles);
+#padrão da classe
+class tabelaDados($dados:Array, $styles:Array, names_key:Array, forcevertical:bool, autorender:bool,debug:bool);
+$tabela = new tabelaDados($dados,$styles);
+$tabela->render();
 
 ```
 
 Opcional ```$styles``` é um array contendo styles e classes html/css.
-
-``` php
-
-$styles = [
-    "class" => [
-        "tables" => "",
-        "td" => "",
-        "th" => "",
-        "..." => "",
-    ],
-    "styles" => [
-        "tables" => "width: px",
-        "td" => "paddgin:",
-        "th" => "etc.",
-         "..." => "",
-    ],
-
-
-];
-
-```
-
-## Tabela Vertical
-
-É compostas por 2 colunas e N linhas, definidos apartir do array de objetos.
-
-Exemplo de tabela (Renderizado):
-
-key  |  valor |
-------|-------|
-key_1| dado_1|
-key_2| dado_2|
-
-Exemplo do **array de entrada de dados**:
-
-```php
-    $dados[] = [
-        "key_1" => "dado_1",
-        "key_2" => "dado_2",
-    ];
-```
-
-Como renderizar tabela:
-
-``` php
-//entradas: 
-    # dados : array
-    # classes e styles : array
-$tables->tabelaHorizontal($dados,$styles);
-
-```
 
 ### Customização CSS ou STYLES
 
@@ -205,18 +314,25 @@ Opcional ```$styles``` é um array contendo styles e classes html/css.
 ``` php
 
 $styles = [
+    "width" => "",
+    "height" => "",
     "class" => [
-        "tables" => "",
+        "table" => "",
         "td" => "",
         "th" => "",
         "..." => "",
     ],
     "styles" => [
-        "tables" => "width: px",
+        "table" => "width: px",
         "td" => "paddgin:",
         "th" => "etc.",
          "..." => "",
     ],
+    "td" => [
+        "width" => "",
+        "height" => "",
+
+    ]
 
 
 ];
